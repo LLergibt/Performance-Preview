@@ -1,13 +1,3 @@
-<head>
-<style>
-.monospaced-background {
-  background-color: #7777;
-  font-family: monospace;
-  padding: 5px;
-}
-</style>
-</head>
-
 <h1 align="center">Performance-Preview</h1>
 
 Performance-Preview — бэкенд-сервис для сбора и управления отзывами о сотрудниках с поддержкой авторизации, ролей и
@@ -26,8 +16,8 @@ Performance-Preview — бэкенд-сервис для сбора и упра�
 
 <hr>
 <ol>
-  <li class="monospaced-background">git clone https://github.com/LLergibt/Performance-Preview.git</li>
-  <li class="monospaced-background">cd Performance-Preview/api</li>
-  <li class="monospaced-background">pip intall uv</li>
-  <li class="monospaced-background">uv sync --frozen --no-cache</li>
+  <li>git clone https://github.com/LLergibt/Performance-Preview.git</li>
+  <li>cd Performance-Preview/api</li>
+  <li>pip intall uv</li>
+  <li>uv sync --frozen --no-cache</li>
 </ol>
