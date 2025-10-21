@@ -9,7 +9,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 
-WORKDIR /var/www/app/
+WORKDIR /var/www/app/api/
 
 COPY pyproject.toml uv.lock ./
 COPY . .
@@ -22,4 +22,4 @@ RUN pip install --upgrade pip \
 EXPOSE 8000
 
 
-CMD ["/app/.venv/bin/uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uv", "run", "fastapi", "dev", "--host", "0.0.0.0", "--port", "8000"]

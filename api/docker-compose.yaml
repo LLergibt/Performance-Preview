@@ -1,0 +1,49 @@
+services:
+  app:
+    container_name: performance_preview_app
+    build: ./
+    depends_on:
+      - db
+      - redis
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/var/www/app/api
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - internet
+      - appnet
+
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_DB_HOST_PORT}:5432
+    volumes:
+      - .postgres:/var/lib/postgres/data
+    restart: always
+    networks:
+      - appnet
+
+
+  redis:
+    image: redis
+    container_name: redis
+    restart: unless-stopped
+    networks:
+      - appnet
+
+
+networks:
+  internet:
+    name: internet
+    driver: bridge
+  appnet:
+    name: appnet
+    driver: bridge
