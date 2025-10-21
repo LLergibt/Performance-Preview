@@ -4,7 +4,8 @@
  import { Input } from "$lib/components/ui/input/index.js";
  import * as Card from "$lib/components/ui/card/index.js";
 </script>
- 
+
+<div class="flex items-center justify-center min-h-screen">
 <Card.Root class="w-full max-w-sm">
  <Card.Header>
   <Card.Title>Регистрация</Card.Title>
@@ -12,7 +13,7 @@
    >Введите свою почту, чтоб зарегистрировать аккаунт</Card.Description
   >
   <Card.Action>
-   <Button variant="link">Sign In</Button>
+   <Button variant="link"><a href="/signin">Sign In</a></Button>
   </Card.Action>
  </Card.Header>
  <Card.Content>
@@ -53,3 +54,4 @@
   <Button type="submit" class="w-full">Зарегистрироваться</Button>
  </Card.Footer>
 </Card.Root>
+</div>

@@ -4,15 +4,15 @@
  import { Input } from "$lib/components/ui/input/index.js";
  import * as Card from "$lib/components/ui/card/index.js";
 </script>
- 
+<div class="flex items-center justify-center min-h-screen">
 <Card.Root class="w-full max-w-sm">
  <Card.Header>
-  <Card.Title>Login to your account</Card.Title>
+  <Card.Title>Войдите в свой аккаунт</Card.Title>
   <Card.Description
-   >Enter your email below to login to your account</Card.Description
+   >Напишите свою почту, чтобы авторизоваться на сайте</Card.Description
   >
   <Card.Action>
-   <Button variant="link">Sign Up</Button>
+   <Button variant="link"><a href="/signup">Sign Up</a></Button>
   </Card.Action>
  </Card.Header>
  <Card.Content>
@@ -29,7 +29,7 @@
        href="##"
        class="ml-auto inline-block text-sm underline-offset-4 hover:underline"
       >
-       Forgot your password?
+       Забыли пароль?
       </a>
      </div>
      <Input id="password" type="password" required />
@@ -38,6 +38,7 @@
   </form>
  </Card.Content>
  <Card.Footer class="flex-col gap-2">
-  <Button type="submit" class="w-full">Login</Button>
+  <Button type="submit" class="w-full">Войти</Button>
  </Card.Footer>
 </Card.Root>
+</div>
