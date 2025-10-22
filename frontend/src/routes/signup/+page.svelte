@@ -19,7 +19,7 @@
                 <div class="flex flex-col gap-2 w-full">
                     <!--<div class="grid gap-2">
                         <Input id="lastname" type="text" placeholder="Фамилия" class="w-full" required />
-                    </div>-->
+                    </div>---->
                     <div class="grid gap-2">
                         <Input id="name" type="text" placeholder="Иванов Иван Иванович" class="w-full" required />
                     </div>
