@@ -2,12 +2,6 @@ test-results
 node_modules
 
 # Output
-**/.un
-**/.un~
-**/.swp
-*.un
-*.un~
-*.swp
 .output
 .vercel
 .netlify
