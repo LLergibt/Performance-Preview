@@ -41,3 +41,7 @@ class UserInDB(User):
 class UserLogin(BaseModel):
     email: str
     password: str
+
+
+class RefreshRequest(BaseModel):
+    refresh_token: str
