@@ -36,3 +36,8 @@ class UserInDB(User):
     hashed_password: str
     is_active: bool | None = None
     role: Role
+
+
+class UserLogin(BaseModel):
+    email: str
+    password: str

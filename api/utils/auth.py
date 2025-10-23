@@ -15,6 +15,12 @@ def get_password_hash(password):
     return password_hash.hash(password)
 
 
+def verify_password(password: str, hashed_password: str) -> bool:
+    try:
+        return password_hash.verify(password, hashed_password)
+    except Exception:
+        return False
+
 def create_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:
