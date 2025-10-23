@@ -1,53 +1,92 @@
 <script lang="ts">
- import { Button } from "$lib/components/ui/button/index.js";
- import { Label } from "$lib/components/ui/label/index.js";
- import { Input } from "$lib/components/ui/input/index.js";
- import * as Card from "$lib/components/ui/card/index.js";
- import '../../app.css';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { Label } from '$lib/components/ui/label/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import * as Card from '$lib/components/ui/card/index.js';
+	import * as Select from '$lib/components/ui/select/index.js';
+
+	import '../../app.css';
+	const roles = [
+		{ value: 'supervisor', label: 'Руководитель' },
+		{ value: 'employee', label: 'Сотрудник' }
+	];
+
+	let value = $state('');
+
+	const triggerContent = $derived(roles.find((f) => f.value === value)?.label ?? 'Выберите роль');
 </script>
 
 <div>
-    <div class="flex items-center justify-center min-h-screen bg-[#F7F6F2]">
-        <Card.Root class="py-30 px-0 w-full max-w-lg">
-            <Card.Header class="text-center">
-                <Card.Title class="text-center text-2xl">Регистрация</Card.Title>
-                <Card.Description class="text-sm text-[#71717a]">Добавьте свои данные для создания аккаунта</Card.Description>
-            </Card.Header>
+	<div class="flex items-center justify-center min-h-screen bg-[#F7F6F2]">
+		<Card.Root class="py-30 px-0 w-full max-w-lg">
+			<Card.Header class="text-center">
+				<Card.Title class="text-center text-2xl">Регистрация</Card.Title>
+				<Card.Description class="text-sm text-[#71717a]"
+					>Добавьте свои данные для создания аккаунта</Card.Description
+				>
+			</Card.Header>
 
-            <Card.Content class="w-full">
-                <form>
-                <div class="flex flex-col gap-2 w-full">
-                    <!--<div class="grid gap-2">
+			<Card.Content class="w-full">
+				<form>
+					<div class="flex flex-col gap-2 w-full">
+						<Select.Root type="single" name="role" bind:value>
+							<Select.Trigger class="w-full">
+								{triggerContent}
+							</Select.Trigger>
+							<Select.Content>
+								<Select.Group>
+									<Select.Label>Роли</Select.Label>
+									{#each roles as role (role.value)}
+										<Select.Item value={role.value} label={role.label}>{role.label}</Select.Item>
+									{/each}
+								</Select.Group>
+							</Select.Content>
+						</Select.Root>
+
+						<!--<div class="grid gap-2">
                         <Input id="lastname" type="text" placeholder="Фамилия" class="w-full" required />
                     </div>--->
-                    <div class="grid gap-2">
-                        <Input id="name" type="text" placeholder="Иванов Иван Иванович" class="w-full" required />
-                    </div>
-                    <div class="grid gap-2">
-                        <Input id="role" type="text" placeholder="Роль" class="w-full" required />
-                    </div>
-                    <div class="grid gap-2">
-                        <Input id="email" type="email" placeholder="Name@gmail.com" class="w-full" required />
-                    </div>
-                    <div class="grid gap-2 flex items-center">
-                        <Input id="password" type="password" placeholder="Пароль" class="w-full" required />
-                    </div>
-                    <div class="grid gap-2 flex items-center">
-                        <Input id="confirm-password" type="password" placeholder="Подтвердите пароль" class="w-full" required />
-                    </div>
-                </div>
-                </form>
-            </Card.Content>
+						<div class="grid gap-2">
+							<Input
+								id="name"
+								type="text"
+								placeholder="Иванов Иван Иванович"
+								class="w-full"
+								required
+							/>
+						</div>
+						<div class="grid gap-2">
+							<Input id="email" type="email" placeholder="Name@gmail.com" class="w-full" required />
+						</div>
+						<div class="grid gap-2 flex items-center">
+							<Input id="password" type="password" placeholder="Пароль" class="w-full" required />
+						</div>
+						<div class="grid gap-2 flex items-center">
+							<Input
+								id="confirm-password"
+								type="password"
+								placeholder="Подтвердите пароль"
+								class="w-full"
+								required
+							/>
+						</div>
+					</div>
+				</form>
+			</Card.Content>
 
-            <Card.Footer class="flex-col gap-2 w-full">
-                <Button type="submit" class="w-full">Создать аккаунт</Button>
-            </Card.Footer>
+			<Card.Footer class="flex-col gap-2 w-full">
+				<Button type="submit" class="w-full">Создать аккаунт</Button>
+			</Card.Footer>
 
-            <div class="flex items-center justify-center">
-                <Card.Action>
-                <Label for="account" class="text-[#8c8c8c]">Уже есть аккаунт?<Button variant="link" class="p-0 m-0"><a href="/signin" class="text-[#8c8c8c] underline">Войти</a></Button></Label>
-                </Card.Action>
-            </div>
-        </Card.Root>
-    </div>
+			<div class="flex items-center justify-center">
+				<Card.Action>
+					<Label for="account" class="text-[#8c8c8c]"
+						>Уже есть аккаунт?<Button variant="link" class="p-0 m-0"
+							><a href="/signin" class="text-[#8c8c8c] underline">Войти</a></Button
+						></Label
+					>
+				</Card.Action>
+			</div>
+		</Card.Root>
+	</div>
 </div>
