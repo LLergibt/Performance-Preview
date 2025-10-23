@@ -27,6 +27,6 @@ def check_user_password(session: Session, email: str, password: str):
     statement = select(User).where(User.email == email)
     user: UserInDB = session.exec(statement).first()
     if verify_password(password, user.hash):
-        return {"status": True}
+        return True
 
-    return {"status": False}
+    return False

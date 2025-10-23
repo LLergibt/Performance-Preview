@@ -41,10 +41,10 @@ async def signin(*, session: Session = Depends(get_session), user_form: UserLogi
     if not user:
         raise HTTPException(status_code=500, detail="Пользователь не найден")
 
-    result = check_user_password(session, user_form.email, user_form.password)
+    status = check_user_password(session, user_form.email, user_form.password)
 
-    if not result["status"]:
-        raise HTTPException(status_code=500,
+    if not status:
+        raise HTTPException(status_code=401,
                             detail="Пароль неверный")
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
