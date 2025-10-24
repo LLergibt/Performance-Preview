@@ -1,7 +1,7 @@
 from sqlmodel import Session, select
 from api.models.user import User
 from api.schemas.auth import UserCreate, UserInDB
-from api.utils.auth import get_password_hash
+from api.utils.auth import get_password_hash, verify_password
 
 
 def create_user(session: Session, user_data: UserCreate) -> User:
@@ -21,3 +21,12 @@ def get_user(session: Session, email: str):
     user: UserInDB = session.exec(statement).first()
     if user:
         return user
+
+
+def check_user_password(session: Session, email: str, password: str):
+    statement = select(User).where(User.email == email)
+    user: UserInDB = session.exec(statement).first()
+    if verify_password(password, user.hash):
+        return True
+
+    return False

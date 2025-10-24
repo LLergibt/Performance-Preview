@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from api.dependencies import create_db
-from api.routers import auth
+from api.routers import auth, token
 
 app = FastAPI()
 
 app.include_router(auth.router)
+app.include_router(token.router)
 
 
 @app.get("/")
