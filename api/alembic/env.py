@@ -7,7 +7,7 @@ from alembic import context
 
 from sqlmodel import SQLModel
 from api.dependencies import DATABASE_URL
-from api.models.user import User  # noqa
+from api.models.employee import Employee  # noqa
 
 config = context.config
 
