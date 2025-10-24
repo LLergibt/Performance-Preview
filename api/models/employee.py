@@ -1,6 +1,5 @@
 from sqlmodel import SQLModel, Field
 from api.schemas.auth import Role
-from typing import Optional
 
 
 class Employee(SQLModel, table=True):
@@ -15,7 +14,7 @@ class Employee(SQLModel, table=True):
     hash: str = Field(index=True)
     is_active: bool = Field(default=True)
 
-    supervisor_id: Optional[int] = Field(
+    supervisor_id: int = Field(
         default=None,
         foreign_key="employees.id"
     )
