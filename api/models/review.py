@@ -1,12 +1,12 @@
 from sqlmodel import SQLModel, Field
 
 
-class Result(SQLModel, table=True):
-    __tablename__ = "results"
+class Review(SQLModel, table=True):
+    __tablename__ = "reviews"
 
     id: int | None = Field(default=None, primary_key=True)
-    supervisor_id: int = Field(
-        default=None,
+
+    reviewer_id: int = Field(
         foreign_key="employees.id"
     )
 
@@ -14,5 +14,4 @@ class Result(SQLModel, table=True):
         foreign_key="goals.id"
     )
 
-    rating: int
-    recommendations: str
+    average_rank: int

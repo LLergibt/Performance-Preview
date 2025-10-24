@@ -9,6 +9,13 @@ from sqlmodel import SQLModel
 from api.dependencies import DATABASE_URL
 from api.models.employee import Employee  # noqa
 from api.models.result import Result  # noqa
+from api.models.goal import Goal  # noqa
+from api.models.task import Task  # noqa
+from api.models.potential import Potential  # noqa
+from api.models.review import Review  # noqa
+from api.models.answer import Answer  # noqa
+from api.models.question import Question  # noqa
+from api.models.answer_for_potential import AnswerForPotential  # noqa
 
 config = context.config
 
