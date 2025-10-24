@@ -3,42 +3,42 @@
  import { Label } from "$lib/components/ui/label/index.js";
  import { Input } from "$lib/components/ui/input/index.js";
  import * as Card from "$lib/components/ui/card/index.js";
+ import '../../app.css';
 </script>
-<div class="flex items-center justify-center min-h-screen">
-<Card.Root class="w-full max-w-sm">
- <Card.Header>
-  <Card.Title>Войдите в свой аккаунт</Card.Title>
-  <Card.Description
-   >Напишите свою почту, чтобы авторизоваться на сайте</Card.Description
-  >
-  <Card.Action>
-   <Button variant="link"><a href="/signup">Sign Up</a></Button>
-  </Card.Action>
- </Card.Header>
- <Card.Content>
-  <form>
-   <div class="flex flex-col gap-6">
-    <div class="grid gap-2">
-     <Label for="email">Email</Label>
-     <Input id="email" type="email" placeholder="m@example.com" required />
+
+<div>
+    <div class="flex items-center justify-center min-h-screen bg-[#F7F6F2]">
+        <Card.Root class="py-36.5 px-0 w-full max-w-lg">
+            <Card.Header class="text-center">
+                <div>
+                <Card.Title class="text-center text-2xl">Авторизация</Card.Title>
+                <Card.Description class="text-sm text-[#71717a]">Введите свои данные для входа в аккаунт</Card.Description>
+                </div>
+            </Card.Header>
+
+            <Card.Content class="w-full">
+                <form>
+                    <div class="flex flex-col gap-2 w-full">
+                        <div class="grid gap-2">
+                            <Input id="email" type="email" placeholder="Name@gmail.com" class="w-full" required />
+                        </div>
+                        <div class="grid gap-2 flex items-center">
+                            <Input id="password" type="password" placeholder="Пароль" class="w-full" required />
+                        </div>
+                    </div>
+                </form>
+            </Card.Content>
+
+            <Card.Footer class="flex-col gap-2 w-full ">
+                <Button type="submit" class="w-full">Войти в аккаунт</Button>
+                <Button variant="link"><a href="http://sex-studentki.bid" class="text-[#8c8c8c] underline">Забыли пароль?</a></Button>
+            </Card.Footer>
+
+            <div class="flex items-center justify-center -mt-6 pb-15">
+                <Card.Action>
+                    <Label for="account" class="text-[#8c8c8c]">Ещё нет аккаунта?<Button variant="link" class="p-0 m-0"><a href="/signup" class="text-[#8c8c8c] underline">Создать</a></Button></Label>
+                </Card.Action>
+            </div>
+        </Card.Root>
     </div>
-    <div class="grid gap-2">
-     <div class="flex items-center">
-      <Label for="password">Password</Label>
-      <a
-       href="##"
-       class="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-      >
-       Забыли пароль?
-      </a>
-     </div>
-     <Input id="password" type="password" required />
-    </div>
-   </div>
-  </form>
- </Card.Content>
- <Card.Footer class="flex-col gap-2">
-  <Button type="submit" class="w-full">Войти</Button>
- </Card.Footer>
-</Card.Root>
 </div>
