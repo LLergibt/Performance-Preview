@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
-	import RoleForm from '$lib/components/role-form.svelte';
+	import SignupForm from '$lib/components/signup-Form.svelte';
 
 	const { data } = $props();
 
@@ -9,6 +9,6 @@
 
 <div>
 	<div class="flex items-center justify-center min-h-screen bg-[#F7F6F2]">
-		<RoleForm {form} {errors} {enhance} />
+		<SignupForm {form} {errors} {enhance} />
 	</div>
 </div>
