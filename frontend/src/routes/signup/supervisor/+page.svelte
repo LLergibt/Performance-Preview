@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
-	import SignupForm from '$lib/components/signup-Form.svelte';
+	import SignupForm from '$lib/components/signup-form.svelte';
 
 	const { data } = $props();
 
