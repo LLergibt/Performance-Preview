@@ -26,3 +26,8 @@ export const employeeSchema = signupSchema.safeExtend({
 	role: z.string().default('employee'),
 	supervisorEmail: z.string().email({ message: 'Некоректный email' })
 });
+
+export const loginSchema = z.object({
+	email: z.string().email({ message: 'Некоректный email' }),
+	password: z.string().nonempty({ message: 'Пароль не может быть пустым' })
+});
