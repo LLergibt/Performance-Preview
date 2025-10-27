@@ -1,7 +1,14 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosError } from 'axios';
+export interface Token {
+	access_token: string;
+	refresh_token: string;
+	token_type: string;
+}
 export interface AuthGateway {
 	connectToDB(): Promise<string>;
+	signUserUp(): Promise<Token>;
+	signUserIn(): Promise<Token>;
 }
 export class AuthGateaway implements AuthGateaway {
 	private api: AxiosInstance;
@@ -30,4 +37,5 @@ export class AuthGateaway implements AuthGateaway {
 			throw new Error(`Failed to create photo: ${error}`);
 		}
 	}
+	async sign
 }
