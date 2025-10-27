@@ -15,6 +15,10 @@ async def create_task(
     current_employee: Employee = Depends(get_current_user)
 
 ):
+    
+    if current_employee is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     return await task_crud.create_task(
         session=session, 
         created_task=task,

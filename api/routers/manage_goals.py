@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 
 from api.crud import goal as goal_crud
@@ -16,6 +16,10 @@ async def create_goal(
     session: Session = Depends(get_session),
     current_employee: Employee = Depends(get_current_user),
 ):
+    
+    if current_employee is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     return await goal_crud.create_goal(
         session=session,
         created_goal=goal,
@@ -29,4 +33,8 @@ async def finish_goal(
     session: Session = Depends(get_session),
     current_employee: Employee = Depends(get_current_user),
 ):
+    
+    if current_employee is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     pass
