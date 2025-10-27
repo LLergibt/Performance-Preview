@@ -1,5 +1,5 @@
-from sqlmodel import SQLModel, Field, Relationship
-
+from __future__ import annotations
+from sqlmodel import SQLModel, Field
 
 class GoalRespondentLink(SQLModel, table=True):
     __tablename__ = "goal_respondents"

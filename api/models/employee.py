@@ -1,6 +1,13 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
 from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy.orm import Mapped
 from api.schemas.auth import Role
 from api.models.goal_respondents import GoalRespondentLink
+
+if TYPE_CHECKING:
+    from .goal import Goal
 
 class Employee(SQLModel, table=True):
     __tablename__ = "employees"
@@ -10,13 +17,13 @@ class Employee(SQLModel, table=True):
     surname: str = Field(index=True)
     lastname: str = Field(index=True)
     role: Role
-    email: str = Field(index=True)
+    email: str = Field(index=True, unique=True)
     hash: str = Field(index=True)
     is_active: bool = Field(default=True)
 
-    supervisor_id: int = Field(default=None, foreign_key="employees.id")
+    supervisor_id: int | None = Field(default=None, foreign_key="employees.id")
 
-    goals_responded: list["Goal"] = Relationship(
+    goals_responded: Mapped[list["Goal"]] = Relationship(
         back_populates="respondents",
         link_model=GoalRespondentLink
     )

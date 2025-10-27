@@ -29,6 +29,7 @@ class User(BaseModel):
 class UserCreate(User):
     role: RoleCreate
     password: str
+    supervisor_email: str
 
 
 class UserInDB(User):
