@@ -3,8 +3,12 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
-
+	import EyeIcon from "@lucide/svelte/icons/eye";
+	import EyeOffIcon from "@lucide/svelte/icons/eye-off";
 	const { form, errors, enhance, children } = $props();
+
+	let showPassword = $state(false);
+	let showConfirm = $state(false);
 </script>
 
 <Card.Root class="py-30 px-0 w-full max-w-lg">
@@ -44,28 +48,58 @@
 					{#if $errors.email}<span class="invalid">{$errors.email}</span>{/if}
 				</div>
 				<div class="grid gap-2">
-					<Input
-						id="password"
-						placeholder="Пароль"
-						type="password"
-						name="password"
-						class="w-full"
-						aria-invalid={$errors.password ? 'true' : undefined}
-						required
-						bind:value={$form.password}
-					/>
+					<div class="relative">
+						<Input
+							id="password"
+							placeholder="Пароль"
+							type={showPassword ? 'text' : 'password'}
+							name="password"
+							class="w-full pr-10"
+							aria-invalid={$errors.password ? 'true' : undefined}
+							required
+							bind:value={$form.password}
+						/>
+						<Button
+							type="button"
+							variant="ghost"
+							size="sm"
+							class="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 p-0"
+							onclick={() => (showPassword = !showPassword)}
+						>
+							{#if showPassword}
+								<EyeOffIcon class="h-4 w-4" />
+							{:else}
+								<EyeIcon class="h-4 w-4" />
+							{/if}
+						</Button>
+					</div>
 					{#if $errors.password}<span class="invalid">{$errors.password}</span>{/if}
 				</div>
 				<div class="grid gap-2">
-					<Input
-						placeholder="Подтвердите пароль"
-						type="password"
-						name="confirm"
-						class="w-full"
-						aria-invalid={$errors.confirm ? 'true' : undefined}
-						required
-						bind:value={$form.confirm}
-					/>
+					<div class="relative">
+						<Input
+							placeholder="Подтвердите пароль"
+							type={showConfirm ? 'text' : 'password'}
+							name="confirm"
+							class="w-full pr-10"
+							aria-invalid={$errors.confirm ? 'true' : undefined}
+							required
+							bind:value={$form.confirm}
+						/>
+						<Button
+							type="button"
+							variant="ghost"
+							size="sm"
+							class="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 p-0"
+							onclick={() => (showConfirm = !showConfirm)}
+						>
+							{#if showConfirm}
+								<EyeOffIcon class="h-4 w-4" />
+							{:else}
+								<EyeIcon class="h-4 w-4" />
+							{/if}
+						</Button>
+					</div>
 					{#if $errors.confirm}<span class="invalid">{$errors.confirm}</span>{/if}
 				</div>
 				{#if children}

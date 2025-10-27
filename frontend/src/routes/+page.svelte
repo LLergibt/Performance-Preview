@@ -8,7 +8,5 @@
 </script>
 
 <div>
-	<div class="flex items-center justify-center min-h-screen bg-[#F7F6F2]">
-		<RoleForm {form} {errors} {enhance} />
-	</div>
+	<h1>Покажи письку</h1>
 </div>
