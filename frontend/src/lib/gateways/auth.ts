@@ -37,5 +37,4 @@ export class AuthGateaway implements AuthGateaway {
 			throw new Error(`Failed to create photo: ${error}`);
 		}
 	}
-	async sign
 }
