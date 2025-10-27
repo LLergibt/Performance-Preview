@@ -1,5 +1,7 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
 from api.schemas.auth import Role
+from api.models.goal import Goal
+from api.models.goal_respondents import GoalRespondentLink
 
 
 class Employee(SQLModel, table=True):
@@ -17,4 +19,10 @@ class Employee(SQLModel, table=True):
     supervisor_id: int = Field(
         default=None,
         foreign_key="employees.id"
+    )
+
+    goals_responded: list["Goal"] = Relationship(
+        default=None,
+        back_populates="respondents",
+        link_model=GoalRespondentLink
     )

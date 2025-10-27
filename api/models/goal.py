@@ -1,4 +1,6 @@
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel, Field, Relationship
+
+from api.models.goal_respondents import GoalRespondentLink, Employee
 
 
 class Goal(SQLModel, table=True):
@@ -7,7 +9,7 @@ class Goal(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
     title: str
-    expection: str
+    expectation: str
     done: bool
 
     task_id: int = Field(
@@ -16,4 +18,10 @@ class Goal(SQLModel, table=True):
 
     owner_id: int = Field(
         foreign_key="employees.id"
+    )
+
+    respondents: list["Employee"] = Relationship(
+        default=None,
+        back_populates="goals_responded",
+        link_model=GoalRespondentLink,
     )

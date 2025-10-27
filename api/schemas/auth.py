@@ -45,3 +45,7 @@ class UserLogin(BaseModel):
 
 class RefreshRequest(BaseModel):
     refresh_token: str
+
+
+class UserRespondents(BaseModel):
+    user_id: int

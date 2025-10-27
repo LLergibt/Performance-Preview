@@ -3,6 +3,7 @@ from .auth import UserInDB
 from typing import Optional, List
 from .manage_tasks import TaskResponse, TaskCreate
 from datetime import datetime
+from api.schemas.auth import UserRespondents
 
 
 class Goal(BaseModel):
@@ -16,6 +17,7 @@ class GoalInDB(Goal):
     owner_id: int
 
     model_config = ConfigDict(from_attributes=True)
+    respondents: List[UserRespondents]
 
 
 class GoalCreate(Goal):
