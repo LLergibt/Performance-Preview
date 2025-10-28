@@ -18,13 +18,13 @@
 				<Input
 					placeholder="name@gmail.com"
 					type="email"
-					name="supervisorEmail"
+					name="supervisor_email"
 					class="w-full"
-					aria-invalid={$errors.supervisorEmail ? 'true' : undefined}
+					aria-invalid={$errors.supervisor_email ? 'true' : undefined}
 					required
-					bind:value={$form.supervisorEmail}
+					bind:value={$form.supervisor_email}
 				/>
-				{#if $errors.supervisorEmail}<span class="invalid">{$errors.supervisorEmail}</span>{/if}
+				{#if $errors.supervisor_email}<span class="invalid">{$errors.supervisor_email}</span>{/if}
 			</div>
 		</SignupForm>
 	</div>

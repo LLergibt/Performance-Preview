@@ -1,4 +1,7 @@
 import { z } from 'zod';
+import { AuthGateaway } from '$lib/gateways/auth';
+const gateway = new AuthGateaway();
+
 export const roleSchema = z.object({
 	role: z
 		.enum(['supervisor', 'employee'], {
@@ -7,9 +10,15 @@ export const roleSchema = z.object({
 		})
 		.default('')
 });
-export const signupSchema = z
+export const tokenSchema = z.object({
+	access_token: z.string(),
+	refresh_token: z.string(),
+	token_type: z.string()
+});
+
+export const baseSignupSchema = z
 	.object({
-		fullname: z.string().min(1, { message: 'Фио обязательно' }),
+		fullname: z.string(),
 		email: z.string().email({ message: 'Некоректный email' }),
 		password: z.string().min(8, { message: 'Пароль слишком короткий, от 8 символов' }),
 		confirm: z.string()
@@ -17,17 +26,38 @@ export const signupSchema = z
 	.refine((data) => data.password === data.confirm, {
 		message: 'Пароли не совпадают',
 		path: ['confirm']
-	});
-
-export const supervisorSchema = signupSchema.safeExtend({
-	role: z.string().default('supervisor')
+	})
+	.refine(
+		(data) => data.fullname.split(' ').length === 3 && data.fullname.split(' ').indexOf('') === -1,
+		{
+			message: 'ФИО неккоректно',
+			path: ['fullname']
+		}
+	)
+	.refine((data) => gateway.validateEmail(data.email, 'email'));
+export const supervisorSchema = baseSignupSchema.safeExtend({
+	role: z.enum(['supervisor', 'employee']).default('supervisor')
 });
-export const employeeSchema = signupSchema.safeExtend({
-	role: z.string().default('employee'),
-	supervisorEmail: z.string().email({ message: 'Некоректный email' })
-});
+export const employeeSchema = baseSignupSchema
+	.safeExtend({
+		role: z.enum(['supervisor', 'employee']).default('employee'),
+		supervisor_email: z.string().email({ message: 'Некоректный email' })
+	})
+	.refine((data) => gateway.validateEmail(data.supervisor_email, 'supervisor'));
 
 export const loginSchema = z.object({
 	email: z.string().email({ message: 'Некоректный email' }),
 	password: z.string().nonempty({ message: 'Пароль не может быть пустым' })
 });
+export const signupSchema = z.object({
+	firstname: z.string(),
+	surname: z.string(),
+	lastname: z.string(),
+	email: z.string().email({ message: 'Некоректный email' }),
+	password: z.string().min(8, { message: 'Пароль слишком короткий, от 8 символов' }),
+	role: z.enum(['supervisor', 'employee']),
+	supervisor_email: z.string().default('')
+});
+
+export type signupData = z.infer<typeof signupSchema>;
+export type Token = z.infer<typeof tokenSchema>;
