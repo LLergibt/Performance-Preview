@@ -1,4 +1,5 @@
 from sqlmodel import SQLModel, Field
+from utils.enums import RaterEnum
 
 
 class Review(SQLModel, table=True):
@@ -6,12 +7,12 @@ class Review(SQLModel, table=True):
 
     id: int | None = Field(default=None, primary_key=True)
 
-    reviewer_id: int = Field(
-        foreign_key="employees.id"
-    )
+    reviewer_id: int = Field(foreign_key="employees.id")
 
-    goal_id: int = Field(
-        foreign_key="goals.id"
-    )
+    goal_id: int = Field(foreign_key="goals.id")
 
-    average_rank: int
+    task_id: int = Field(foreign_key="tasks.id")
+
+    rating: int
+
+    rater: RaterEnum = None
