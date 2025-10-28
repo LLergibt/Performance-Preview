@@ -29,6 +29,7 @@ class User(BaseModel):
 class UserCreate(User):
     role: RoleCreate
     password: str
+    supervisor_email: str
 
 
 class UserInDB(User):
@@ -45,3 +46,7 @@ class UserLogin(BaseModel):
 
 class RefreshRequest(BaseModel):
     refresh_token: str
+
+
+class UserRespondents(BaseModel):
+    user_id: int
