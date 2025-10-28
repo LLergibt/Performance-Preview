@@ -52,13 +52,12 @@ async def signup(*, session: Session = Depends(get_session), user_form: UserCrea
 async def signin(*, session: Session = Depends(get_session), user_form: UserLogin):
     user = get_user(session, user_form.email)
     if not user:
-        raise HTTPException(status_code=500, detail="Пользователь не найден")
+        raise HTTPException(status_code=401, detail="Неверная почта или пароль")
 
     status = check_user_password(session, user_form.email, user_form.password)
 
     if not status:
-        raise HTTPException(status_code=401,
-                            detail="Пароль неверный")
+        raise HTTPException(status_code=401, detail="Неверная почта или пароль")
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     refresh_token_expires = timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)

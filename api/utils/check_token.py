@@ -16,20 +16,23 @@ async def get_current_user(
 ):
     token = credentials.credentials
 
-    payload = decode_token(token)
-
-    if payload is jwt.ExpiredSignatureError:
+    try:
+        payload = decode_token(token)
+    except jwt.ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expired"
         )
-
-    if payload is jwt.InvalidTokenError:
+    except jwt.InvalidTokenError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
         )
+    if not isinstance(payload, dict):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token payload"
+        )
 
     email = payload.get("sub")
-    if email is None:
+    if not email:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token payload"
         )
@@ -39,5 +42,5 @@ async def get_current_user(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found"
         )
-
+    
     return user
