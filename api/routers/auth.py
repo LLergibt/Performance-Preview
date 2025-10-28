@@ -3,7 +3,7 @@ from sqlmodel import Session
 from datetime import timedelta
 from api.utils.auth import create_token
 from api.schemas.auth import UserCreate, Token, UserInDB, UserLogin, RoleCreate
-from api.crud.user import create_user, get_user, check_user_password, find_supervisor_by_email
+from api.crud.employee import create_user, get_user, check_user_password, find_supervisor_by_email
 from dotenv import load_dotenv
 from api.dependencies import get_session
 import os

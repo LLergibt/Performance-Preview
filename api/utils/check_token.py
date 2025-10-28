@@ -4,7 +4,7 @@ from api.dependencies import get_session
 from .auth import decode_token
 import jwt
 from sqlmodel import Session
-from api.crud.user import get_user
+from api.crud.employee import get_user
 
 
 security = HTTPBearer()

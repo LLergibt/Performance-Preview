@@ -1,8 +1,7 @@
-from sqlmodel import Session, select
+from sqlmodel import Session
 
 from api.models.goal import Goal
 from api.schemas.manage_goals import GoalCreate
-from models.employee import Employee
 
 
 def create_goal(session: Session, goal_data: GoalCreate, owner_id: int) -> Goal:

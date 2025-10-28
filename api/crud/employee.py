@@ -41,3 +41,12 @@ def find_supervisor_by_email(session: Session, email: str):
     supervisor: UserInDB = session.exec(statement).first()
     if supervisor:
         return supervisor.id
+    
+
+def check_employee_exist(session: Session, employee_email: str) -> bool:
+    statement = select(Employee).where(Employee.email == employee_email)
+    employee: Employee = session.exec(statement).first()
+    if employee:
+        return True
+    else:
+        raise ValueError("Работник не найден")
