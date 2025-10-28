@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 from datetime import timedelta
 from api.utils.auth import create_token
-from api.schemas.auth import UserCreate, Token, UserInDB, UserLogin
+from api.schemas.auth import UserCreate, Token, UserInDB, UserLogin, RoleCreate
 from api.crud.user import create_user, get_user, check_user_password, find_supervisor_by_email
 from dotenv import load_dotenv
 from api.dependencies import get_session
@@ -21,20 +21,20 @@ async def signup(*, session: Session = Depends(get_session), user_form: UserCrea
     if user:
         raise HTTPException(status_code=400, detail="Пользователь уже существует")
     
-    if user_form.role == "employee" and user_form.supervisor_email == None:
+    if user_form.role == RoleCreate.EMPLOYEE and not user_form.supervisor_email:
         raise HTTPException(status_code=400, detail="Сотрудник должен иметь руководителя")
     
-    if user_form.role == "supervisor" and user_form.supervisor_email:
+    if user_form.role == RoleCreate.SUPERVISOR and user_form.supervisor_email:
         raise HTTPException(status_code=400, detail="Руководитель не может иметь руководителя")
     
-    if user_form.role == "supervisor":
+    if user_form.role == RoleCreate.SUPERVISOR:
         supervisor_id = None
     else:
         supervisor_id = find_supervisor_by_email(session, user_form.supervisor_email)
-        if not supervisor_id and user_form.role == "employee":
+        if not supervisor_id and user_form.role == RoleCreate.EMPLOYEE:
             raise HTTPException(status_code=400, detail="Руководитель с таким email не найден")
 
-    user = create_user(session, user_form, supervisor_id=supervisor_id.id)
+    user = create_user(session, user_form, supervisor_id=supervisor_id)
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     refresh_token_expires = timedelta(minutes=REFRESH_TOKEN_EXPIRE_MINUTES)
     access_token = create_token(

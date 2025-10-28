@@ -23,7 +23,7 @@ async def create_goal(
 
     return await goal_crud.create_goal(
         session=session,
-        created_goal=goal,
+        goal_data=goal,
         owner_id=current_employee.id,
     )
 
@@ -31,7 +31,6 @@ async def create_goal(
 @router.put("/finish_goal/")
 async def finish_goal(
     goal_id: int,
-    respondents_ids: list[int],
     session: Session = Depends(get_session),
     current_employee: Employee = Depends(get_current_user),
 ):
@@ -43,7 +42,6 @@ async def finish_goal(
         return goal_crud.finish_goal(
             session=session,
             goal_id=goal_id,
-            respondents_ids=respondents_ids,
             owner_id=current_employee.id,
         )
     except ValueError as e:

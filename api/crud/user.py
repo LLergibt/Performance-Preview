@@ -2,9 +2,10 @@ from sqlmodel import Session, select
 from api.models.employee import Employee
 from api.schemas.auth import UserCreate, UserInDB
 from api.utils.auth import get_password_hash, verify_password
+from typing import Optional
 
 
-def create_user(session: Session, user_data: UserCreate, supervisor_id: int) -> Employee:
+def create_user(session: Session, user_data: UserCreate, supervisor_id: Optional[int]) -> Employee:
     db_user = Employee(
         **user_data.model_dump(exclude={"password"}),
         supervisor_id=supervisor_id,

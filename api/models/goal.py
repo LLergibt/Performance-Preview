@@ -1,17 +1,16 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
 
-from sqlmodel import SQLModel, Field, Relationship
-from sqlalchemy.orm import Mapped
-from api.models.goal_respondents import GoalRespondentLink
+from typing import TYPE_CHECKING, Optional
+
+from sqlmodel import SQLModel, Field
 
 if TYPE_CHECKING:
-    from .employee import Employee
+    pass
 
 class Goal(SQLModel, table=True):
     __tablename__ = "goals"
 
-    id: int | None = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
 
     title: str
     expectation: str
@@ -19,8 +18,3 @@ class Goal(SQLModel, table=True):
 
     task_id: int = Field(foreign_key="tasks.id")
     owner_id: int = Field(foreign_key="employees.id")
-
-    respondents: Mapped[list["Employee"]] = Relationship(
-        back_populates="goals_responded",
-        link_model=GoalRespondentLink
-    )
