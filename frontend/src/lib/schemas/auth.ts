@@ -34,7 +34,10 @@ export const baseSignupSchema = z
 			path: ['fullname']
 		}
 	)
-	.refine((data) => gateway.validateEmail(data.email, 'email'));
+	.refine((data) => gateway.validateEmail(data.email, 'email'), {
+		message: 'Почта уже занята',
+		path: ['email']
+	});
 export const supervisorSchema = baseSignupSchema.safeExtend({
 	role: z.enum(['supervisor', 'employee']).default('supervisor')
 });
@@ -43,7 +46,10 @@ export const employeeSchema = baseSignupSchema
 		role: z.enum(['supervisor', 'employee']).default('employee'),
 		supervisor_email: z.string().email({ message: 'Некоректный email' })
 	})
-	.refine((data) => gateway.validateEmail(data.supervisor_email, 'supervisor'));
+	.refine((data) => gateway.validateEmail(data.supervisor_email, 'supervisor'), {
+		message: 'Руководителя с такой почтой не существует',
+		path: ['supervisor_email']
+	});
 
 export const loginSchema = z.object({
 	email: z.string().email({ message: 'Некоректный email' }),
@@ -60,4 +66,5 @@ export const signupSchema = z.object({
 });
 
 export type signupData = z.infer<typeof signupSchema>;
+export type loginData = z.infer<typeof loginSchema>;
 export type Token = z.infer<typeof tokenSchema>;

@@ -27,6 +27,7 @@
 						placeholder="Name@gmail.com"
 						class="w-full"
 						bind:value={$form.email}
+						aria-invalid={$errors.email ? 'true' : undefined}
 						required
 					/>
 					{#if $errors.email}<span>{$errors.email}</span>{/if}
@@ -37,6 +38,7 @@
 						type="password"
 						placeholder="Пароль"
 						class="w-full"
+						aria-invalid={$errors.password ? 'true' : undefined}
 						bind:value={$form.password}
 						required
 					/>

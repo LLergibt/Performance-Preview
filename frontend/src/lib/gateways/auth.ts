@@ -1,6 +1,12 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosError } from 'axios';
-import { signupSchema, tokenSchema, type signupData, type Token } from '$lib/schemas/auth';
+import {
+	signupSchema,
+	tokenSchema,
+	type loginData,
+	type signupData,
+	type Token
+} from '$lib/schemas/auth';
 // validating email depending if it's a supervisor email or just an email for signing up
 type ValidateEmail = 'supervisor' | 'email';
 export interface AuthGateway {
@@ -43,6 +49,15 @@ export class AuthGateaway implements AuthGateaway {
 			return tokenSchema.parse({ refresh_token: '', access_token: '', token_type: '' });
 		} catch (error) {
 			throw new Error(`Failed to signup: ${error}`);
+		}
+	}
+	async signUserIn(form: loginData): Promise<Token> {
+		try {
+			// cosnt {data} = await this.api.post('signin', form)
+			// return tokenSchema.parse(data)
+			return tokenSchema.parse({ refresh_token: '', access_token: '', token_type: '' });
+		} catch (error) {
+			throw new Error(`Failed to signin: ${error}`);
 		}
 	}
 	async validateEmail(email: string, type: ValidateEmail): Promise<string> {
