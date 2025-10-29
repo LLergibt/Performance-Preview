@@ -8,10 +8,10 @@ from api.utils.check_token import get_current_user
 from api.models.employee import Employee
 
 
-router = APIRouter()
+router = APIRouter(prefix="/goal", tags=["goal"])
 
 
-@router.post("/create_goal/")
+@router.post("/create/")
 async def create_goal(
     goal: GoalCreate,
     session: Session = Depends(get_session),
@@ -28,7 +28,7 @@ async def create_goal(
     )
 
 
-@router.put("/finish_goal/")
+@router.put("/finish/")
 async def finish_goal(
     goal_id: int,
     session: Session = Depends(get_session),
