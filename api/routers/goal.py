@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 
 from api.crud import goal as goal_crud
-from api.schemas.manage_goals import GoalCreate
+from api.schemas.goal import GoalCreate
 from api.dependencies import get_session
 from api.utils.check_token import get_current_user
 from api.models.employee import Employee
