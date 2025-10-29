@@ -20,6 +20,10 @@ def add_respondent(session: Session, respondent_data: RespondentCreate):
     if not is_goal_exists:
         raise ValueError("Цель с таким ID не найдена")
     
+    goal_owner_id = session.query(Goal.owner_id).filter(Goal.id == respondent_data.goal_id).scalar()
+    if goal_owner_id == respondent_data.employee_id:
+        raise ValueError("Сотрудник не может быть респондентом своей собственной цели")
+
     respondents_count = session.query(Respondent).filter(Respondent.goal_id == respondent_data.goal_id).count()
 
     if respondents_count > 5:
