@@ -8,19 +8,14 @@ from api.schemas.respondent import RespondentCreate
 from api.crud import respondent as respondent_crud
 
 
-router = APIRouter(prefix="/respondent")
+router = APIRouter(prefix="/respondent", tags=["respondent"])
 
 
 @router.post("/add_respondent")
 async def add_respondent(
     respondent_data: RespondentCreate,
-    session: Session = Depends(get_session),
-    current_user: Employee = Depends(get_current_user),
+    session: Session = Depends(get_session)
 ):
-    
-    if current_user is None:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    
     
     try:
         return await respondent_crud.add_respondent(
