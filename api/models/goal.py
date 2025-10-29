@@ -1,11 +1,6 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
 from sqlmodel import SQLModel, Field
-
-if TYPE_CHECKING:
-    pass
 
 class Goal(SQLModel, table=True):
     __tablename__ = "goals"

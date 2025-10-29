@@ -16,6 +16,7 @@ from api.models.review import Review  # noqa
 from api.models.answer import Answer  # noqa
 from api.models.question import Question  # noqa
 from api.models.answer_for_potential import AnswerForPotential  # noqa
+from api.models.respondent import Respondent  # noqa
 
 config = context.config
 
