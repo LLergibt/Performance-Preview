@@ -3,6 +3,7 @@ from sqlmodel import Session, select
 from api.models.goal import Goal
 from api.schemas.manage_goals import GoalCreate
 from models.employee import Employee
+from utils.transaction import transaction_over
 
 
 def create_goal(session: Session, goal_data: GoalCreate, owner_id: int) -> Goal:
@@ -11,10 +12,15 @@ def create_goal(session: Session, goal_data: GoalCreate, owner_id: int) -> Goal:
         owner_id=owner_id,
     )
 
-    session.add(db_goal)
-    session.commit()
-    session.refresh(db_goal)
-    return db_goal
+    # session.add(db_goal)
+    # session.commit()
+    # session.refresh(db_goal)
+    # return db_goal
+    
+    return transaction_over(
+        obj=db_goal,
+        session=session,
+    )
 
 
 def finish_goal(session: Session, goal_id: int, respondents_ids: list[int], owner_id: int) -> Goal:
@@ -36,13 +42,14 @@ def finish_goal(session: Session, goal_id: int, respondents_ids: list[int], owne
 
     db_goal.respondents = respondents
 
-    session.add(db_goal)
-    session.commit()
-    session.refresh(db_goal)
-    return db_goal
+    # session.add(db_goal)
+    # session.commit()
+    # session.refresh(db_goal)
+    # return db_goal
 
-# def get_goal_byId(session: Session, goal_id: int) -> GoalInDB | None:
-#     statement = select(Goal).where(Goal.id == goal_id)
-#     goal: GoalInDB = session.exec(statement).first()
-#     if goal:
-#         return goal
+    return transaction_over(
+        obj=db_goal,
+        session=session,
+    )
+
+

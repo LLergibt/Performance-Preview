@@ -2,6 +2,7 @@ from sqlmodel import Session
 from api.models.goal import Goal
 from api.models.task import Task
 from api.schemas.manage_goals import TaskCreate
+from utils.transaction import transaction_over 
 
 
 def create_task(session: Session, task_data: TaskCreate, goal_id: int) -> Task:
@@ -15,14 +16,15 @@ def create_task(session: Session, task_data: TaskCreate, goal_id: int) -> Task:
     task_id = db_task.id
     goal.task_id = task_id
 
-    session.add(db_task)
-    session.commit()
-    session.refresh(db_task)
-    return db_task
+    # session.add(db_task)
+    # session.commit()
+    # session.refresh(db_task)
+    # return db_task
+
+    return transaction_over(
+        obj=db_task,
+        session=session,
+    )
 
 
-# def get_goal_byId(session: Session, goal_id: int) -> GoalInDB | None:
-#     statement = select(Goal).where(Goal.id == goal_id)
-#     goal: GoalInDB = session.exec(statement).first()
-#     if goal:
-#         return goal
+

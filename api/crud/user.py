@@ -2,6 +2,7 @@ from sqlmodel import Session, select
 from api.models.employee import Employee
 from api.schemas.auth import UserCreate, UserInDB
 from api.utils.auth import get_password_hash, verify_password
+from utils.transaction import transaction_over
 
 
 def create_user(session: Session, user_data: UserCreate) -> Employee:
@@ -10,10 +11,14 @@ def create_user(session: Session, user_data: UserCreate) -> Employee:
         hash=get_password_hash(user_data.password),
     )
 
-    session.add(db_user)
-    session.commit()
-    session.refresh(db_user)
-    return db_user
+    # session.add(db_user)
+    # session.commit()
+    # session.refresh(db_user)
+    # return db_user
+    
+    return transaction_over(
+        obj=db_user, session=session
+    )
 
 
 def get_user(session: Session, email: str):
@@ -30,3 +35,12 @@ def check_user_password(session: Session, email: str, password: str):
         return True
 
     return False
+
+
+def find_supervisor_by_email(session: Session, email: str):
+    statement = select(Employee).where(
+        (Employee.email == email) & (Employee.role == "supervisor")
+    )
+    supervisor: UserInDB = session.exec(statement).first()
+    if supervisor:
+        return supervisor.id
