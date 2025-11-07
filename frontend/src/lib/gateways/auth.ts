@@ -23,6 +23,7 @@ export class AuthGateaway implements AuthGateaway {
 			timeout: 5000,
 			headers: {
 				'Content-Type': 'application/json'
+				// 'Authorization': `Bearer ${accessToken}`
 			}
 		});
 		this.api.interceptors.response.use(
@@ -60,13 +61,6 @@ export class AuthGateaway implements AuthGateaway {
 			throw new Error(`Failed to signin: ${error}`);
 		}
 	}
-	async validateEmail(email: string, type: ValidateEmail): Promise<string> {
-		try {
-			// const { data } = await this.api.get(`/auth/validate-${type}?email=${email}`);
-			// return data.message;
-			return 'valid';
-		} catch (error) {
-			throw new Error(`Failed to create photo: ${error}`);
-		}
+	
 	}
-}
+

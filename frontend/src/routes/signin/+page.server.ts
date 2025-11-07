@@ -35,12 +35,12 @@ export const actions = {
 			// 	sameSite: 'strict',
 			// 	maxAge: 60 * 60 * 24 // 1 day
 			// });
-			// return message(token, 'Form submitted successfully!');
+			return message(token, 'Form submitted successfully!');
 		} catch (e) {
 			const error = e as Error;
 			console.log(error);
 			return message(form, `API ERROR: ${error.message}`, { status: 500 });
 		}
-		redirect(302, '/');
+		// redirect(302, '/');
 	}
 };
