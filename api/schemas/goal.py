@@ -4,7 +4,7 @@ from typing import Optional, List
 from pydantic import BaseModel, ConfigDict
 
 from .auth import UserInDB
-from .manage_tasks import TaskResponse, TaskCreate
+from .task import TaskResponse, TaskCreate
 
 
 class Goal(BaseModel):

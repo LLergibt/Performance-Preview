@@ -1,14 +1,8 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
 from sqlmodel import SQLModel, Field
 
 from api.schemas.auth import Role
-
-if TYPE_CHECKING:
-    pass
-
 
 class Employee(SQLModel, table=True):
     __tablename__ = "employees"

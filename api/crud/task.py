@@ -1,7 +1,7 @@
 from sqlmodel import Session
 from api.models.goal import Goal
 from api.models.task import Task
-from api.schemas.manage_goals import TaskCreate
+from api.schemas.goal import TaskCreate
 
 
 def create_task(session: Session, task_data: TaskCreate, goal_id: int) -> Task:

@@ -7,10 +7,12 @@ from api.models.employee import Employee
 from api.crud import employee as employee_crud
 from api.schemas.auth import RoleCreate
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/employee", tags=["employee"]
+)
 
 
-@router.get("/employee_check_exist/")
+@router.get("/check_exist/")
 async def employee_check_exist(
     employee_email: str,
     session: Session = Depends(get_session),
@@ -31,7 +33,7 @@ async def employee_check_exist(
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     
-@router.get("/employee_is_supervisor/")
+@router.get("is_supervisor/")
 async def employee_is_supervisor(
     employee_email: str,
     session: Session = Depends(get_session),
