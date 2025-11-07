@@ -2,9 +2,10 @@ from sqlmodel import Session, select
 from api.models.employee import Employee
 from api.schemas.auth import UserCreate, UserInDB
 from api.utils.auth import get_password_hash, verify_password
+from typing import Optional
 
 
-def create_user(session: Session, user_data: UserCreate, supervisor_id: int) -> Employee:
+def create_user(session: Session, user_data: UserCreate, supervisor_id: Optional[int]) -> Employee:
     db_user = Employee(
         **user_data.model_dump(exclude={"password"}),
         supervisor_id=supervisor_id,
@@ -40,3 +41,12 @@ def find_supervisor_by_email(session: Session, email: str):
     supervisor: UserInDB = session.exec(statement).first()
     if supervisor:
         return supervisor.id
+    
+
+def check_employee_exist(session: Session, employee_email: str) -> bool:
+    statement = select(Employee).where(Employee.email == employee_email)
+    employee: Employee = session.exec(statement).first()
+    if employee:
+        return True
+    else:
+        raise ValueError("Работник не найден")

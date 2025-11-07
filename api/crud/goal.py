@@ -1,8 +1,7 @@
-from sqlmodel import Session, select
+from sqlmodel import Session
 
 from api.models.goal import Goal
 from api.schemas.manage_goals import GoalCreate
-from models.employee import Employee
 
 
 def create_goal(session: Session, goal_data: GoalCreate, owner_id: int) -> Goal:
@@ -17,7 +16,7 @@ def create_goal(session: Session, goal_data: GoalCreate, owner_id: int) -> Goal:
     return db_goal
 
 
-def finish_goal(session: Session, goal_id: int, respondents_ids: list[int], owner_id: int) -> Goal:
+def finish_goal(session: Session, goal_id: int, owner_id: int) -> Goal:
     db_goal = session.get(Goal, goal_id)
     if not db_goal:
         raise ValueError("Цель не найдена")
@@ -26,15 +25,6 @@ def finish_goal(session: Session, goal_id: int, respondents_ids: list[int], owne
         raise PermissionError("Нет доступа")
     
     db_goal.done = True
-
-    respondents = session.exec(
-        select(Employee).where(Employee.id.in_(respondents_ids))
-    ).all()
-
-    if len(respondents) > 5:
-        raise ValueError("Можно добавить не более 5 респондентов")
-
-    db_goal.respondents = respondents
 
     session.add(db_goal)
     session.commit()
