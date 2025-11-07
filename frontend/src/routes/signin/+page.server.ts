@@ -1,19 +1,46 @@
-import { fail } from '@sveltejs/kit';
-import { message, superValidate } from 'sveltekit-superforms';
+import { superValidate } from 'sveltekit-superforms';
+import type { Infer, SuperValidated } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
-import { loginSchema } from '$lib/schemas/auth';
 
+import { loginSchema, tokenSchema, type loginData } from '$lib/schemas/auth';
+import { fail, redirect } from '@sveltejs/kit';
+import type { RequestEvent } from '@sveltejs/kit';
+import { message } from 'sveltekit-superforms';
+import { AuthGateaway } from '$lib/gateways/auth';
+const gateway = new AuthGateaway();
 export const load = async () => {
 	const form = await superValidate(zod4(loginSchema));
 	return { form };
 };
 
 export const actions = {
-	default: async ({ request }) => {
+	default: async (event: RequestEvent) => {
+		const { request } = event;
 		const form = await superValidate(request, zod4(loginSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
-		return message(form, 'Form submitted successfully!');
+		try {
+			const result: loginData = {
+				email: form.data.email,
+				password: form.data.password
+			};
+			const tokenRaw = await gateway.signUserIn(result);
+			const token = await superValidate(tokenRaw, zod4(tokenSchema));
+
+			// event.cookies.set('AuthorizationToken', `Bearer ${token.data.refresh_token}`, {
+			// 	httpOnly: true,
+			// 	path: '/',
+			// 	secure: true,
+			// 	sameSite: 'strict',
+			// 	maxAge: 60 * 60 * 24 // 1 day
+			// });
+			return message(token, 'Form submitted successfully!');
+		} catch (e) {
+			const error = e as Error;
+			console.log(error);
+			return message(form, `API ERROR: ${error.message}`, { status: 500 });
+		}
+		// redirect(302, '/');
 	}
 };

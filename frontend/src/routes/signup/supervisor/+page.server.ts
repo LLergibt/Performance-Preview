@@ -1,6 +1,7 @@
 import { superValidate } from 'sveltekit-superforms';
+import type { Infer, SuperValidated } from 'sveltekit-superforms';
 import { zod4 } from 'sveltekit-superforms/adapters';
-import { supervisorSchema } from '$lib/schemas/auth';
+import { signupSchema, supervisorSchema, tokenSchema, type signupData } from '$lib/schemas/auth';
 import { fail } from '@sveltejs/kit';
 import type { RequestEvent } from '@sveltejs/kit';
 import { message } from 'sveltekit-superforms';
@@ -19,9 +20,21 @@ export const actions = {
 			return fail(400, { form });
 		}
 		try {
-			const data = await gateway.connectToDB();
-			console.log(data);
-			return message(form, 'Form submitted successfully!');
+			const fullname = form.data.fullname.split(' ');
+			const result: signupData = {
+				lastname: fullname[0],
+				firstname: fullname[1],
+				surname: fullname[2],
+				email: form.data.email,
+				password: form.data.password,
+				role: form.data.role,
+				supervisor_email: ''
+			};
+			console.log(result);
+			const tokenRaw = await gateway.signUserUp(result);
+			const token = await superValidate(tokenRaw, zod4(tokenSchema));
+			console.log(token);
+			return message(token, 'Form submitted successfully!');
 		} catch (e) {
 			const error = e as Error;
 			return message(form, `API ERROR: ${error.message}`, { status: 500 });
