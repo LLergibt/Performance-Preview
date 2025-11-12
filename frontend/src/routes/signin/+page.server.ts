@@ -27,12 +27,13 @@ export const actions = {
 			};
 			const tokenRaw = await gateway.signUserIn(result);
 			const token = await superValidate(tokenRaw, zod4(tokenSchema));
+			
 
 			event.cookies.set('AuthorizationToken', `Bearer ${token.data.refresh_token}`, {
 				httpOnly: true,
 				path: '/',
 				secure: import.meta.env.VITE_BEHAVIOR === 'production',
-				sameSite: 'lax',
+				sameSite: 'strict',
 				maxAge: 60 * 43800
 			});
 			return message(token, 'Form submitted successfully!');
