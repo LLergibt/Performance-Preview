@@ -31,14 +31,15 @@ export const actions = {
 			event.cookies.set('AuthorizationToken', `Bearer ${token.data.refresh_token}`, {
 				httpOnly: true,
 				path: '/',
-				secure: true,
-				sameSite: 'strict',
+				secure: import.meta.env.VITE_BEHAVIOR === 'production',
+				sameSite: 'lax',
 				maxAge: 60 * 43800
 			});
 			return message(token, 'Form submitted successfully!');
 		} catch (e) {
 			const error = e as Error;
 			return message(form, `API ERROR: ${error.message}`, { status: 500 });
+			// return fail(400, { form });
 		}
 		// redirect(302, '/');
 	}
