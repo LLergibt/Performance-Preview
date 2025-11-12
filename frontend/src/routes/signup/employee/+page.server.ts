@@ -38,6 +38,14 @@ export const actions = {
 			};
 			const tokenRaw = await gateway.signUserUp(result);
 			const token = await superValidate(tokenRaw, zod4(tokenSchema));
+			event.cookies.set('AuthorizationToken', `Bearer ${token.data.refresh_token}`, {
+				httpOnly: true,
+				path: '/',
+				secure: true,
+				sameSite: 'strict',
+				maxAge: 60 * 43800
+			});
+
 			return message(token, 'Form submitted successfully!');
 		} catch (e) {
 			const error = e as Error;

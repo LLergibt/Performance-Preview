@@ -33,6 +33,14 @@ export const actions = {
 			console.log(result);
 			const tokenRaw = await gateway.signUserUp(result);
 			const token = await superValidate(tokenRaw, zod4(tokenSchema));
+			event.cookies.set('AuthorizationToken', `Bearer ${token.data.refresh_token}`, {
+				httpOnly: true,
+				path: '/',
+				secure: true,
+				sameSite: 'strict',
+				maxAge: 60 * 43800
+			});
+
 			console.log(token);
 			return message(token, 'Form submitted successfully!');
 		} catch (e) {

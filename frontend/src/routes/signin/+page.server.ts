@@ -28,17 +28,16 @@ export const actions = {
 			const tokenRaw = await gateway.signUserIn(result);
 			const token = await superValidate(tokenRaw, zod4(tokenSchema));
 
-			// event.cookies.set('AuthorizationToken', `Bearer ${token.data.refresh_token}`, {
-			// 	httpOnly: true,
-			// 	path: '/',
-			// 	secure: true,
-			// 	sameSite: 'strict',
-			// 	maxAge: 60 * 60 * 24 // 1 day
-			// });
+			event.cookies.set('AuthorizationToken', `Bearer ${token.data.refresh_token}`, {
+				httpOnly: true,
+				path: '/',
+				secure: true,
+				sameSite: 'strict',
+				maxAge: 60 * 43800
+			});
 			return message(token, 'Form submitted successfully!');
 		} catch (e) {
 			const error = e as Error;
-			console.log(error);
 			return message(form, `API ERROR: ${error.message}`, { status: 500 });
 		}
 		// redirect(302, '/');

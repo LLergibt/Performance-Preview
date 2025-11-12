@@ -13,6 +13,7 @@ export interface AuthGateway {
 	connectToDB(): Promise<string>;
 	signUserUp(): Promise<Token>;
 	signUserIn(): Promise<Token>;
+	validateEmail(): Promise<boolean>;
 }
 export class AuthGateaway implements AuthGateaway {
 	private api: AxiosInstance;
@@ -45,22 +46,21 @@ export class AuthGateaway implements AuthGateaway {
 	}
 	async signUserUp(form: signupData): Promise<Token> {
 		try {
-			// const { data } = await this.api.post('/signup', form);
-			// return tokenSchema.parse(data);
-			return tokenSchema.parse({ refresh_token: '', access_token: '', token_type: '' });
+			const { data } = await this.api.post('/signup', form);
+			return tokenSchema.parse(data);
 		} catch (error) {
-			throw new Error(`Failed to signup: ${error}`);
+			throw new Error(`Failed to signup: ${error.message}`);
 		}
 	}
 	async signUserIn(form: loginData): Promise<Token> {
 		try {
-			// cosnt {data} = await this.api.post('signin', form)
-			// return tokenSchema.parse(data)
-			return tokenSchema.parse({ refresh_token: '', access_token: '', token_type: '' });
+			const { data } = await this.api.post('signin', form);
+			return tokenSchema.parse(data);
 		} catch (error) {
 			throw new Error(`Failed to signin: ${error}`);
 		}
 	}
-	
+	async validateEmail() {
+		return true;
 	}
-
+}

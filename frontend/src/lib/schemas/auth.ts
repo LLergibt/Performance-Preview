@@ -2,6 +2,11 @@ import { z } from 'zod';
 import { AuthGateaway } from '$lib/gateways/auth';
 const gateway = new AuthGateaway();
 
+export interface initialUser {
+	role: string;
+	email: string;
+}
+
 export const roleSchema = z.object({
 	role: z
 		.enum(['supervisor', 'employee'], {
